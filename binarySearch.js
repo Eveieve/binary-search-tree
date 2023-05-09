@@ -2,19 +2,12 @@ function Node(data = null, left = null, right = null) {
   return { data, left, right };
 }
 
-const root = Node();
-console.log(root);
+// const root = Node();
+// console.log(root);
 
 // const root = null;
 
-// a tree returns the root
-function Tree(root = null) {
-  return {
-    root,
-  };
-}
-
-let array = [1, 2, 3, 4, 5, 6, 7, 8];
+let array = [1, 2, 3, 4, 5, 6];
 
 array.sort((a, b) => a - b);
 
@@ -39,9 +32,28 @@ function buildBST(arr, start = 0, end = arr.length - 1) {
   console.log("node.right", node.right);
   return node;
 }
+class Tree {
+  constructor(root) {
+    this.root = root;
+  }
+}
 
-console.log(buildBST(sortedArray));
-// const tree = Tree();
+let BST = buildBST(sortedArray);
+
+// let root = null;
+
+function insert(root, data) {
+  if (root == null) {
+    root = Node(data);
+    console.log(root);
+  }
+  if (data < root.data) root.left = insert(root.left, data);
+  else if (data > root.data) root.right = insert(root.right, data);
+  return root;
+}
+
+console.log(insert(BST, 10));
+console.log(insert(BST, 9));
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -56,4 +68,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-console.log(prettyPrint(buildBST(sortedArray)));
+console.log(prettyPrint(BST));

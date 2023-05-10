@@ -40,21 +40,40 @@ function insert(root, data) {
 }
 
 function remove(root, data) {
-  // if what it meets is a null node just return its value, null
+  // if meet a null node, simply return null
   // a root refers to each node it visits
-  if (root == null) return root;
+  if (root == null) return null;
 
   // recur down the tree if the data is smaller!
   if (data < root.data) root.left = remove(root.left, data);
   else if (data > root.data) root.right = remove(root.right, data);
   // else, data is same as root's data, found the node to remove!
   else {
+    // 1. current pointer(root) has no children - remove it!
     if (root.left == null && root.right == null) return null;
-    // the parent's pointer is pointing to its right
+    // 2. if it has no left children - point to its right instead
     else if (root.left == null) return root.right;
     else if (root.right == null) return root.left;
+
+    // 3. when all above don't fit the case...(with two children)
+    // find the smallest node in the right subtree
+    root.data = findTheSmallest(root.right);
+    // remove that node with that data, go to node's right, remove it.
+    root.right = remove(root.right, root.data);
   }
-  return root;
+
+  // find the next smallest node in the tree
+  function findTheSmallest(root) {
+    let minv = root.data; // minv is the pointer node
+    while (root.left !== null) {
+      // while pointer isn't null
+      minv = root.left.data; // pointer at the left node's data
+      root = root.left; // set the current pointer to that node
+    }
+    return minv; // return node with next smallest value
+  }
+
+  return root; // return the tree
 }
 
 console.log(remove(BST, 1));

@@ -39,7 +39,25 @@ function insert(root, data) {
   return root;
 }
 
-// console.log(insert(BST, 10));
+function remove(root, data) {
+  // if what it meets is a null node just return its value, null
+  // a root refers to each node it visits
+  if (root == null) return root;
+
+  // recur down the tree if the data is smaller!
+  if (data < root.data) root.left = remove(root.left, data);
+  else if (data > root.data) root.right = remove(root.right, data);
+  // else, data is same as root's data, found the node to remove!
+  else {
+    if (root.left == null && root.right == null) return null;
+    // the parent's pointer is pointing to its right
+    else if (root.left == null) return root.right;
+    else if (root.right == null) return root.left;
+  }
+  return root;
+}
+
+console.log(remove(BST, 1));
 // console.log(insert(BST, 9));
 
 console.log(BST);

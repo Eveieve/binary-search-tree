@@ -65,13 +65,13 @@ function remove(root, data) {
 
   // find the next smallest node in the tree
   function findTheSmallest(root) {
-    let minv = root.data; // minv is the pointer node
+    let smallest = root.data; // smallest is the pointer node
     while (root.left !== null) {
       // while pointer isn't null
-      minv = root.left.data; // pointer at the left node's data
+      smallest = root.left.data; // pointer at the left node's data
       root = root.left; // set the current pointer to that node
     }
-    return minv; // return node with next smallest value
+    return smallest; // return node with next smallest value
   }
 
   return root; // return the tree
@@ -91,6 +91,19 @@ function find(root, data) {
   }
 }
 console.log(find(BST, 5));
+
+function getHeight(root) {
+  if (root == null) return 0;
+  else {
+    let leftH = getHeight(root.left);
+    let rightH = getHeight(root.right);
+
+    if (leftH > rightH) return leftH + 1;
+    else return rightH + 1;
+  }
+}
+
+console.log(getHeight(BST));
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {

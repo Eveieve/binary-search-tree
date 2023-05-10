@@ -45,6 +45,7 @@ function remove(root, data) {
   if (root == null) return null;
 
   // recur down the tree if the data is smaller!
+  // set the pointer (root.left) to result of remove() recursive call
   if (data < root.data) root.left = remove(root.left, data);
   else if (data > root.data) root.right = remove(root.right, data);
   // else, data is same as root's data, found the node to remove!
@@ -76,10 +77,20 @@ function remove(root, data) {
   return root; // return the tree
 }
 
-console.log(remove(BST, 1));
+// console.log(remove(BST, 1));
 // console.log(insert(BST, 9));
 
-console.log(BST);
+function find(root, data) {
+  // let's find some node
+  if (root == null) return null;
+  else if (data < root.data) return find(root.left, data);
+  else if (data > root.data) return find(root.right, data);
+  // else, data is same as root's data, found the node to remove!
+  else {
+    return { root, data }; // returning recursive call's result from above
+  }
+}
+console.log(find(BST, 5));
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {

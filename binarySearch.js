@@ -135,14 +135,17 @@ function levelOrder(root) {
 
 console.log(levelOrder(BST));
 
+const newArray = [];
 function inOrder(root) {
   if (root == null) return; // end call
   // go to left child first
   inOrder(root.left);
   // if above recur call has been returned bc root ==null...
   console.log(root.data); // print its value
+  newArray.push(root.data);
   // then recur to the right
   inOrder(root.right); // move to the right child! (now the root is this right child)
+  return newArray;
 }
 
 console.log(inOrder(BST));
@@ -172,12 +175,22 @@ function isBalanced(BST) {
 
   let heightLeft = getHeight(BST.left);
   let heightRight = getHeight(BST.right);
-
-  if (heightLeft - heightRight <= 1 || heightRight - heightLeft) return true;
+  console.log(heightLeft);
+  console.log(heightRight);
+  if (Math.abs(heightLeft - heightRight) <= 1) return true;
   else return false;
 }
 
-console.log(isBalanced(BST));
+function reBalance(BST) {
+  // traverse a tree to have a new array for BST
+  const newArray = inOrder(BST);
+  return buildBST(newArray);
+}
+
+insert(BST, 40);
+insert(BST, 34);
+insert(BST, 60);
+
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -191,5 +204,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
 console.log(prettyPrint(BST));
+console.log(isBalanced(BST));

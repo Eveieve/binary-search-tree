@@ -147,6 +147,14 @@ function inOrder(root) {
 
 console.log(inOrder(BST));
 
+function preOrder(root) {
+  if (root === null) return;
+  console.log(root.data);
+  preOrder(root.left);
+  preOrder(root.right);
+}
+
+console.log(preOrder(BST));
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;

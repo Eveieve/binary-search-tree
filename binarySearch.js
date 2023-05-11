@@ -27,7 +27,9 @@ class Tree {
 }
 
 let BST = buildBST(sortedArray);
-
+insert(BST, 40);
+insert(BST, 34);
+insert(BST, 60);
 // take in the tree/root
 function insert(root, data) {
   if (root == null) {
@@ -134,21 +136,21 @@ function levelOrder(root) {
 }
 
 console.log(levelOrder(BST));
-
 const newArray = [];
+
 function inOrder(root) {
   if (root == null) return; // end call
   // go to left child first
-  inOrder(root.left);
-  // if above recur call has been returned bc root ==null...
-  console.log(root.data); // print its value
-  newArray.push(root.data);
-  // then recur to the right
-  inOrder(root.right); // move to the right child! (now the root is this right child)
-  return newArray;
+  else {
+    inOrder(root.left);
+    // if above recur call has been returned bc root ==null...
+    console.log(root.data); // print its value
+    newArray.push(root.data);
+    // then recur to the right
+    inOrder(root.right);
+    return newArray;
+  } // move to the right child! (now the root is this right child)
 }
-
-console.log(inOrder(BST));
 
 function preOrder(root) {
   if (root === null) return;
@@ -181,15 +183,19 @@ function isBalanced(BST) {
   else return false;
 }
 
+console.log(isBalanced(BST));
+
 function reBalance(BST) {
   // traverse a tree to have a new array for BST
   const newArray = inOrder(BST);
-  return buildBST(newArray);
+  console.log(newArray);
+  const balancedBST = buildBST(newArray);
+
+  return balancedBST;
 }
 
-insert(BST, 40);
-insert(BST, 34);
-insert(BST, 60);
+BST = reBalance(BST);
+// rebalanced!
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -204,5 +210,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
+
 console.log(prettyPrint(BST));
-console.log(isBalanced(BST));

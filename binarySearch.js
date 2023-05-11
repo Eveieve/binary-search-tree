@@ -95,15 +95,41 @@ console.log(find(BST, 5));
 function getHeight(root) {
   if (root == null) return 0;
   else {
+    // get the height of left subtree
     let leftH = getHeight(root.left);
+    console.log(leftH, root.left);
     let rightH = getHeight(root.right);
-
+    console.log(rightH, root.right);
+    // return either's height + 1
     if (leftH > rightH) return leftH + 1;
     else return rightH + 1;
   }
 }
 
 console.log(getHeight(BST));
+
+function printNode(root, level) {
+  if (root === null) return;
+
+  // if rootnode is at level 0, (headroot of the tree/subtree)
+  // just print the data of it.
+  if (level === 0) console.log(root.data);
+  else if (level >= 1) {
+    printNode(root.left, level - 1);
+    printNode(root.right, level - 1);
+  }
+}
+
+function levelOrder(root) {
+  const height = getHeight(root);
+
+  // repeat printing process, from level 0 to height
+  // note that it's i<height and not i<=height
+  for (let i = 0; i < height; i++) {
+    printNode(root, i);
+  }
+}
+console.log(levelOrder(BST));
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {

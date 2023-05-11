@@ -108,13 +108,17 @@ function getHeight(root) {
 
 console.log(getHeight(BST));
 
+// pass BST as root
 function printNode(root, level) {
+  // root here is the current node we're at
   if (root === null) return;
 
   // if rootnode is at level 0, (headroot of the tree/subtree)
   // just print the data of it.
   if (level === 0) console.log(root.data);
+  // for each rootnode, print the whole left & right subtree
   else if (level >= 1) {
+    // go to left, now the rootnode's level is -1 from before. (tree's head)
     printNode(root.left, level - 1);
     printNode(root.right, level - 1);
   }
@@ -122,14 +126,26 @@ function printNode(root, level) {
 
 function levelOrder(root) {
   const height = getHeight(root);
-
   // repeat printing process, from level 0 to height
-  // note that it's i<height and not i<=height
+  // note that it's i<height, not i<=height
   for (let i = 0; i < height; i++) {
     printNode(root, i);
   }
 }
+
 console.log(levelOrder(BST));
+
+function inOrder(root) {
+  if (root == null) return; // end call
+  // go to left child first
+  inOrder(root.left);
+  // if above recur call has been returned bc root ==null...
+  console.log(root.data); // print its value
+  // then recur to the right
+  inOrder(root.right); // move to the right child! (now the root is this right child)
+}
+
+console.log(inOrder(BST));
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {

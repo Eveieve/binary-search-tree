@@ -155,6 +155,15 @@ function preOrder(root) {
 }
 
 console.log(preOrder(BST));
+
+function postOrder(root) {
+  if (root === null) return;
+  postOrder(root.left);
+  postOrder(root.right);
+  console.log(root.data);
+}
+
+console.log(postOrder(BST));
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;

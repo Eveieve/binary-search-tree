@@ -164,6 +164,20 @@ function postOrder(root) {
 }
 
 console.log(postOrder(BST));
+
+function isBalanced(BST) {
+  // if height of the left subtree & right is not more than 1
+  // return true
+  // else return false
+
+  let heightLeft = getHeight(BST.left);
+  let heightRight = getHeight(BST.right);
+
+  if (heightLeft - heightRight <= 1 || heightRight - heightLeft) return true;
+  else return false;
+}
+
+console.log(isBalanced(BST));
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;

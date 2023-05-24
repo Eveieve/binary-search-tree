@@ -212,3 +212,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 console.log(prettyPrint(BST));
+

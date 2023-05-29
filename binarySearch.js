@@ -52,40 +52,38 @@ class Tree {
   }
 
   #removeHelper(node) {
+    // if node has two children
     if (node.left && node.right) {
       const successorNode = this.#smallestNodeOf(node.right);
       node.data = successorNode.data;
       node.right = this.remove(successorNode.data, node.right);
       return node; // return the tree
+      // if node has only one child
     } else {
+      // if node.right exists and node.left doesn't,
+      // replacementNode is node.right
       const replacementNode = node.right || node.left;
       node = null;
       return replacementNode; // get replacementNode
     }
   }
-}
-const tree = new Tree();
-console.log(tree);
-tree.insert(8);
-console.log(tree);
-tree.remove(5);
-console.log(tree);
 
-debugger;
-// console.log(remove(BST, 1));
-// console.log(insert(BST, 9));
-
-function find(root, data) {
-  // let's find some node
-  if (root == null) return null;
-  else if (data < root.data) return find(root.left, data);
-  else if (data > root.data) return find(root.right, data);
-  // else, data is same as root's data, found the node to remove!
-  else {
-    return { root, data }; // returning recursive call's result from above
+  find(data, current = this.root) {
+    if (current === null) return current;
+    else if (data < current.data) return this.find(data, current.left);
+    else if (data > current.data) return this.find(data, current.right);
+    // else, data is same as root's data, found the
+    else {
+      return current; // returning recursive call's result from above
+    }
   }
 }
-console.log(find(tree, 5));
+const tree = new Tree();
+tree.insert(8);
+tree.remove(5);
+console.log(tree);
+console.log(tree.find(8));
+debugger;
 
 function getHeight(root) {
   if (root == null) return 0;

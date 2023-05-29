@@ -28,52 +28,50 @@ class Tree {
     else if (data > root.data) root.right = this.insert(data, root.right);
     return root;
   }
+
+  remove(data, current = this.root) {
+    if (current === null) return current;
+
+    if (current.data === data) {
+      // replace currentNode with its successor
+      current = this.#removeHelper(current);
+    } else if (current.data > data) {
+      current.left = this.remove(data, current.left);
+    } else {
+      current.right = this.remove(data, current.right);
+    }
+    return current;
+  }
+
+  #smallestNodeOf(tree) {
+    let current = tree;
+    while (current.left) {
+      current = current.left;
+    }
+    return current;
+  }
+
+  #removeHelper(node) {
+    if (node.left && node.right) {
+      const successorNode = this.#smallestNodeOf(node.right);
+      node.data = successorNode.data;
+      node.right = this.remove(successorNode.data, node.right);
+      return node; // return the tree
+    } else {
+      const replacementNode = node.right || node.left;
+      node = null;
+      return replacementNode; // get replacementNode
+    }
+  }
 }
 const tree = new Tree();
 console.log(tree);
 tree.insert(8);
 console.log(tree);
+tree.remove(5);
+console.log(tree);
+
 debugger;
-// take in the tree/root
-
-function remove(root, data) {
-  // if meet a null node, simply return null
-  // a root refers to each node it visits
-  if (root == null) return null;
-
-  // recur down the tree if the data is smaller!
-  // set the pointer (root.left) to result of remove() recursive call
-  if (data < root.data) root.left = remove(root.left, data);
-  else if (data > root.data) root.right = remove(root.right, data);
-  // else, data is same as root's data, found the node to remove!
-  else {
-    // 1. current pointer(root) has no children - remove it!
-    if (root.left == null && root.right == null) return null;
-    // 2. if it has no left children - point to its right instead
-    else if (root.left == null) return root.right;
-    else if (root.right == null) return root.left;
-
-    // 3. when all above don't fit the case...(with two children)
-    // find the smallest node in the right subtree
-    root.data = findTheSmallest(root.right);
-    // remove that node with that data, go to node's right, remove it.
-    root.right = remove(root.right, root.data);
-  }
-
-  // find the next smallest node in the tree
-  function findTheSmallest(root) {
-    let smallest = root.data; // smallest is the pointer node
-    while (root.left !== null) {
-      // while pointer isn't null
-      smallest = root.left.data; // pointer at the left node's data
-      root = root.left; // set the current pointer to that node
-    }
-    return smallest; // return node with next smallest value
-  }
-
-  return root; // return the tree
-}
-
 // console.log(remove(BST, 1));
 // console.log(insert(BST, 9));
 
@@ -87,7 +85,7 @@ function find(root, data) {
     return { root, data }; // returning recursive call's result from above
   }
 }
-console.log(find(BST, 5));
+console.log(find(tree, 5));
 
 function getHeight(root) {
   if (root == null) return 0;

@@ -72,9 +72,21 @@ class Tree {
     if (current === null) return current;
     else if (data < current.data) return this.find(data, current.left);
     else if (data > current.data) return this.find(data, current.right);
-    // else, data is same as root's data, found the
+    // else, data is same as root's data, found the node
     else {
       return current; // returning recursive call's result from above
+    }
+  }
+
+  getHeight(root = this.root) {
+    if (root == null) return 0;
+    else {
+      // get the height of left subtree
+      let leftH = this.getHeight(root.left);
+      let rightH = this.getHeight(root.right);
+      // return either's height + 1
+      if (leftH > rightH) return leftH + 1;
+      else return rightH + 1;
     }
   }
 }
@@ -83,21 +95,8 @@ tree.insert(8);
 tree.remove(5);
 console.log(tree);
 console.log(tree.find(8));
+console.log(tree.getHeight());
 debugger;
-
-function getHeight(root) {
-  if (root == null) return 0;
-  else {
-    // get the height of left subtree
-    let leftH = getHeight(root.left);
-    console.log(leftH, root.left);
-    let rightH = getHeight(root.right);
-    console.log(rightH, root.right);
-    // return either's height + 1
-    if (leftH > rightH) return leftH + 1;
-    else return rightH + 1;
-  }
-}
 
 console.log(getHeight(BST));
 

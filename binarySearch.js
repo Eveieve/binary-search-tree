@@ -1,35 +1,29 @@
-function Node(data = null, left = null, right = null) {
-  return { data, left, right };
-}
-
 let array = [1, 2, 3, 4, 5, 6];
 array.sort((a, b) => a - b);
 const sortedArray = [...new Set(array)];
 
-function buildBST(arr, start = 0, end = arr.length - 1) {
-  if (start > end) {
-    return null;
-  }
-
-  let mid = Math.floor((start + end) / 2);
-  let node = Node(arr[mid]);
-  console.log("node", node);
-  node.left = buildBST(arr, start, mid - 1);
-  console.log("node.left", node.left);
-  node.right = buildBST(arr, mid + 1, end);
-  console.log("node.right", node.right);
-  return node;
+function Node(data = null, left = null, right = null) {
+  return { data, left, right };
 }
 class Tree {
-  constructor(root) {
-    this.root = root;
+  constructor() {
+    this.root = this.buildBST(sortedArray);
+  }
+  buildBST(arr, start = 0, end = arr.length - 1) {
+    if (start > end) {
+      return null;
+    }
+
+    let mid = Math.floor((start + end) / 2);
+    let node = Node(arr[mid]);
+    node.left = this.buildBST(arr, start, mid - 1);
+    node.right = this.buildBST(arr, mid + 1, end);
+    return node;
   }
 }
-
-let BST = buildBST(sortedArray);
-insert(BST, 40);
-insert(BST, 34);
-insert(BST, 60);
+const tree = new Tree();
+console.log(tree);
+debugger;
 // take in the tree/root
 function insert(root, data) {
   if (root == null) {
@@ -212,4 +206,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 console.log(prettyPrint(BST));
-

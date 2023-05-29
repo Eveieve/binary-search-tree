@@ -89,6 +89,15 @@ class Tree {
       else return rightH + 1;
     }
   }
+
+  levelOrder(root = this.root) {
+    const height = this.getHeight(root);
+    // repeat printing process, from level 0 to height
+    // note that it's i<height, not i<=height
+    for (let i = 0; i < height; i++) {
+      printNode(root, i);
+    }
+  }
 }
 const tree = new Tree();
 tree.insert(8);
@@ -96,6 +105,7 @@ tree.remove(5);
 console.log(tree);
 console.log(tree.find(8));
 console.log(tree.getHeight());
+console.log(tree.levelOrder());
 debugger;
 
 console.log(getHeight(BST));
@@ -115,17 +125,6 @@ function printNode(root, level) {
     printNode(root.right, level - 1);
   }
 }
-
-function levelOrder(root) {
-  const height = getHeight(root);
-  // repeat printing process, from level 0 to height
-  // note that it's i<height, not i<=height
-  for (let i = 0; i < height; i++) {
-    printNode(root, i);
-  }
-}
-
-console.log(levelOrder(BST));
 const newArray = [];
 
 function inOrder(root) {

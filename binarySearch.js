@@ -20,20 +20,21 @@ class Tree {
     node.right = this.buildBST(arr, mid + 1, end);
     return node;
   }
+  insert(data, root = this.root) {
+    if (root == null) {
+      root = Node(data);
+    }
+    if (data < root.data) root.left = this.insert(data, root.left);
+    else if (data > root.data) root.right = this.insert(data, root.right);
+    return root;
+  }
 }
 const tree = new Tree();
 console.log(tree);
+tree.insert(8);
+console.log(tree);
 debugger;
 // take in the tree/root
-function insert(root, data) {
-  if (root == null) {
-    root = Node(data);
-    console.log(root);
-  }
-  if (data < root.data) root.left = insert(root.left, data);
-  else if (data > root.data) root.right = insert(root.right, data);
-  return root;
-}
 
 function remove(root, data) {
   // if meet a null node, simply return null

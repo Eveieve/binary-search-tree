@@ -140,6 +140,18 @@ class Tree {
     this.postOrder(root.right);
     console.log(root.data);
   }
+
+  isBalanced(BST = this.root) {
+    // if height of the left subtree & right is not more than 1
+    // return true
+    // else return false
+    let heightLeft = this.getHeight(BST.left);
+    let heightRight = this.getHeight(BST.right);
+    console.log(heightLeft);
+    console.log(heightRight);
+    if (Math.abs(heightLeft - heightRight) <= 1) return true;
+    else return false;
+  }
 }
 const tree = new Tree();
 tree.insert(8);
@@ -150,34 +162,8 @@ console.log(tree.getHeight());
 console.log(tree.levelOrder());
 // console.log(tree.inOrder());
 console.log(tree.postOrder());
+console.log(tree.isBalanced());
 debugger;
-
-function isBalanced(BST) {
-  // if height of the left subtree & right is not more than 1
-  // return true
-  // else return false
-
-  let heightLeft = getHeight(BST.left);
-  let heightRight = getHeight(BST.right);
-  console.log(heightLeft);
-  console.log(heightRight);
-  if (Math.abs(heightLeft - heightRight) <= 1) return true;
-  else return false;
-}
-
-console.log(isBalanced(BST));
-
-function reBalance(BST) {
-  // traverse a tree to have a new array for BST
-  const newArray = inOrder(BST);
-  console.log(newArray);
-  const balancedBST = buildBST(newArray);
-
-  return balancedBST;
-}
-
-BST = reBalance(BST);
-// rebalanced!
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {

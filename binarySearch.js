@@ -54,6 +54,7 @@ class Tree {
   #removeHelper(node) {
     // if node has two children
     if (node.left && node.right) {
+      // get the smallest node of right subtree
       const successorNode = this.#smallestNodeOf(node.right);
       node.data = successorNode.data;
       node.right = this.remove(successorNode.data, node.right);
@@ -90,13 +91,54 @@ class Tree {
     }
   }
 
-  levelOrder(root = this.root) {
-    const height = this.getHeight(root);
-    // repeat printing process, from level 0 to height
-    // note that it's i<height, not i<=height
-    for (let i = 0; i < height; i++) {
-      printNode(root, i);
+  #levelOrderHelper(root = this.root, level = this.getHeight()) {
+    if (root === null) return;
+    // if rootnode is at level 0, (headroot of the tree/subtree)
+    // just print the data of it.
+    if (level === 0) console.log(root.data);
+    // for each rootnode, print the whole left & right subtree
+    else if (level >= 1) {
+      // go to left, now the rootnode's level is -1 from before. (tree's head)
+      this.#levelOrderHelper(root.left, level - 1);
+      this.#levelOrderHelper(root.right, level - 1);
     }
+  }
+
+  levelOrder(root = this.root) {
+    const height = this.getHeight();
+    // repeat printing process, from level 0 to height
+    for (let i = 0; i < height; i++) {
+      this.#levelOrderHelper(root, i);
+    }
+  }
+
+  // inOrder(root = this.root) {
+  //   // const newArray = [];
+  //   if (root == null) return; // end call
+  //   // go to left child first
+  //   else {
+  //     this.inOrder(root.left);
+  //     // if above recur call has been returned bc root == null...
+  //     console.log(root.data); // print its value
+  //     newArray.push(root.data);
+  //     // then recur to the right
+  //     this.inOrders(root.right);
+  //   } // move to the right child! (now the root is this right child)
+  //   return newArray;
+  // }
+
+  preOrder(root) {
+    if (root === null) return;
+    console.log(root.data);
+    preOrder(root.left);
+    preOrder(root.right);
+  }
+
+  postOrder(root = this.root) {
+    if (root === null) return;
+    this.postOrder(root.left);
+    this.postOrder(root.right);
+    console.log(root.data);
   }
 }
 const tree = new Tree();
@@ -106,58 +148,9 @@ console.log(tree);
 console.log(tree.find(8));
 console.log(tree.getHeight());
 console.log(tree.levelOrder());
+// console.log(tree.inOrder());
+console.log(tree.postOrder());
 debugger;
-
-console.log(getHeight(BST));
-
-// pass BST as root
-function printNode(root, level) {
-  // root here is the current node we're at
-  if (root === null) return;
-
-  // if rootnode is at level 0, (headroot of the tree/subtree)
-  // just print the data of it.
-  if (level === 0) console.log(root.data);
-  // for each rootnode, print the whole left & right subtree
-  else if (level >= 1) {
-    // go to left, now the rootnode's level is -1 from before. (tree's head)
-    printNode(root.left, level - 1);
-    printNode(root.right, level - 1);
-  }
-}
-const newArray = [];
-
-function inOrder(root) {
-  if (root == null) return; // end call
-  // go to left child first
-  else {
-    inOrder(root.left);
-    // if above recur call has been returned bc root ==null...
-    console.log(root.data); // print its value
-    newArray.push(root.data);
-    // then recur to the right
-    inOrder(root.right);
-    return newArray;
-  } // move to the right child! (now the root is this right child)
-}
-
-function preOrder(root) {
-  if (root === null) return;
-  console.log(root.data);
-  preOrder(root.left);
-  preOrder(root.right);
-}
-
-console.log(preOrder(BST));
-
-function postOrder(root) {
-  if (root === null) return;
-  postOrder(root.left);
-  postOrder(root.right);
-  console.log(root.data);
-}
-
-console.log(postOrder(BST));
 
 function isBalanced(BST) {
   // if height of the left subtree & right is not more than 1

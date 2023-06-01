@@ -56,7 +56,7 @@ class Tree {
     if (node.left && node.right) {
       // get the smallest node of right subtree
       const successorNode = this.#smallestNodeOf(node.right);
-      node.data = successorNode.data;
+      node.data = successorNode.data; // copy the data of it
       node.right = this.remove(successorNode.data, node.right);
       return node; // return the tree
       // if node has only one child
@@ -90,7 +90,13 @@ class Tree {
       else return rightH + 1;
     }
   }
-
+  levelOrder(root = this.root) {
+    const height = this.getHeight();
+    // repeat printing process, from level 0 to height
+    for (let i = 0; i < height; i++) {
+      this.#levelOrderHelper(root, i);
+    }
+  }
   #levelOrderHelper(root = this.root, level = this.getHeight()) {
     if (root === null) return;
     // if rootnode is at level 0, (headroot of the tree/subtree)
@@ -101,14 +107,6 @@ class Tree {
       // go to left, now the rootnode's level is -1 from before. (tree's head)
       this.#levelOrderHelper(root.left, level - 1);
       this.#levelOrderHelper(root.right, level - 1);
-    }
-  }
-
-  levelOrder(root = this.root) {
-    const height = this.getHeight();
-    // repeat printing process, from level 0 to height
-    for (let i = 0; i < height; i++) {
-      this.#levelOrderHelper(root, i);
     }
   }
 
@@ -164,6 +162,18 @@ console.log(tree.levelOrder());
 console.log(tree.postOrder());
 console.log(tree.isBalanced());
 debugger;
+
+function reBalance(BST) {
+  // traverse a tree to have a new array for BST
+  const newArray = inOrder(BST);
+  console.log(newArray);
+  const balancedBST = buildBST(newArray);
+
+  return balancedBST;
+}
+
+BST = reBalance(BST);
+// rebalanced!
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
